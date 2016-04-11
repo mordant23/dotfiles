@@ -1,17 +1,5 @@
 #!/bin/bash
-sudo apt-get install git xclip synaptic gdebi
-
-# Install Google Chrome
-if [[ ! $(command -v google-chrome) ]]; then
-cd ~/Downloads/
-curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome*.deb
-fi
-
-# Download Intellij
-if [[ ! $(command -v google-chrome) ]]; then
-curl -O https://download.jetbrains.com/idea/ideaIU-2016.1.1.tar.gz
-fi
+sudo apt-get install git xclip synaptic gdebi vagrant
 
 # Create directories
 directories=( projects src bin )
@@ -22,6 +10,24 @@ if [ ! -d ${i} ]; then
 mkdir ${i}
 fi
 done
+
+cd ~/Downloads/
+
+# Install Google Chrome
+if [[ ! $(command -v google-chrome) ]]; then
+curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome*.deb
+fi
+
+# Download Intellij
+if [[ ! $(command -v idea) ]]; then
+curl -O https://download.jetbrains.com/idea/ideaIU-2016.1.1.tar.gz
+tar -zxvf ideaIU-2016.1.1.tar.gz
+mkdir bin/idea
+mv idea-IU*/* bin/idea/
+cd ~/bin/idea/bin/
+./idea.sh
+fi
 
 echo "=== Manual Steps ==="
 echo "Make Chrome default browser and add it to launcher"
