@@ -70,6 +70,17 @@ else
     already_exists_msg "Hipchat"
 fi
 
+# Download Virtualbox
+check_program_msg "Virtualbox"
+if [[ ! $(command -v virtualbox) ]]; then
+    download_program_msg "Virtualbox"
+    sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian vivid contrib"
+    wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+    sudo apt-get update && sudo apt-get install virtualbox-5.0
+else
+    already_exists_msg "Hipchat"
+fi
+
 echo "=== Manual Steps ==="
 echo "Make Chrome default browser and add it to launcher"
 echo "Add Google apps Keep and Hangout and add them to launcher"
