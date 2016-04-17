@@ -74,11 +74,11 @@ fi
 check_program_msg "Virtualbox"
 if [[ ! $(command -v virtualbox) ]]; then
     download_program_msg "Virtualbox"
-    sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian vivid contrib"
+    sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian wily contrib"
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt-get update && sudo apt-get install virtualbox-5.0
 else
-    already_exists_msg "Hipchat"
+    already_exists_msg "Virtualbox"
 fi
 
 echo "=== Manual Steps ==="
