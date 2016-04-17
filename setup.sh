@@ -19,7 +19,18 @@ function already_exists_msg ()
 
 # Installing useful packages from existing repos
 echo ${MESSAGE_PREFIX} "Installing initial packages"
-sudo apt-get install git xclip synaptic gdebi vagrant
+packages=( git xclip synaptic gdebi vagrant )
+for i in "${packages[@]}"
+do
+    if [ ! $(command -v ${i}) ]; then
+        download_program_msg ${i}
+        sudo apt-get install ${i}
+    else
+        already_exists_msg ${i}
+    fi
+done
+
+#sudo apt-get install git xclip synaptic gdebi vagrant
 
 # Create directories
 echo ${MESSAGE_PREFIX} "Creating Directories"
