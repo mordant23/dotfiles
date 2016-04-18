@@ -63,6 +63,7 @@ if [[ ! $(command -v idea) ]]; then
     mv idea-IU*/* bin/idea/
     cd ~/bin/idea/bin/
     ./idea.sh
+    cd ~/Downloads/
 else
     already_exists_msg "Intellij"
 fi
@@ -89,6 +90,8 @@ if [[ ! $(command -v virtualbox) ]]; then
 else
     already_exists_msg "Virtualbox"
 fi
+
+
 
 echo "=== Manual Steps ==="
 echo "Make Chrome default browser and add it to launcher"
