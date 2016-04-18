@@ -17,14 +17,31 @@ function already_exists_msg ()
     echo ${MESSAGE_PREFIX} $1 " already exists"
 }
 
+# Edit Profile
+cd ~
+
+echo ${MESSAGE_PREFIX} "Editing ~/.profile"
+
+echo ${MESSAGE_PREFIX} "Checking default editor"
+if [[ ! $(echo ${EDITOR} | grep vi) ]]; then
+    echo ${MESSAGE_PREFIX} "Adding vi as default editor"
+    sed -i '$a export EDITOR=$(command -v vi)' .profile
+fi
+
+echo ${MESSAGE_PREFIX} "Checking PATH"
+if [[ ! $(echo ${PATH} | grep npm-global) ]]; then
+    echo ${MESSAGE_PREFIX} "Adding PATH"
+    sed -i '$a export PATH=~/.npm-global/bin:$PATH' .profile
+fi
+
 # Installing useful packages from existing repos
 echo ${MESSAGE_PREFIX} "Installing initial packages"
-packages=( git xclip synaptic gdebi vagrant )
+packages=( git xclip synaptic gdebi vagrant build-essential )
 for i in "${packages[@]}"
 do
     if [ ! $(command -v ${i}) ]; then
         download_program_msg ${i}
-        sudo apt-get install ${i}
+        sudo apt-get install -y ${i}
     else
         already_exists_msg ${i}
     fi
@@ -32,7 +49,7 @@ done
 
 # Create directories
 echo ${MESSAGE_PREFIX} "Creating Directories"
-directories=( projects src bin )
+directories=( projects src bin .npm-global )
 cd ~
 for i in "${directories[@]}"
 do
@@ -91,7 +108,39 @@ else
     already_exists_msg "Virtualbox"
 fi
 
+# Download node and npm
+check_program_msg "node"
+if [[ ! $(command -v node) ]]; then
+    curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+else
+    already_exists_msg "node"
+fi
 
+# Setting npm prefix to ~/.npm-global
+echo ${MESSAGE_PREFIX} "setting npm prefix to ~/.npm-global"
+npm config set prefix '~/.npm-global'
+
+if [[ ! $(echo ${NPM_CONFIG_PREFIX}) ]]; then
+    echo ${MESSAGE_PREFIX} "adding NPM_CONFIG_PREFIX environment variable"
+    sed -i '$a export NPM_CONFIG_PREFIX="~/.node-global"' ~/.profile
+else
+    echo ${MESSAGE_PREFIX} "NPM_CONFIG_PREFIX environment variable already set"
+fi
+
+# Install global npm packages
+node_packages=( npm bower gulp grunt yo )
+for i in "${node_packages[@]}"
+do
+    if [ ! $(command -v ${i}) ]; then
+        download_program_msg ${i}
+        npm install -g ${i}
+    else
+        already_exists_msg ${i}
+    fi
+done
+
+. ~/.profile
 
 echo "=== Manual Steps ==="
 echo "Make Chrome default browser and add it to launcher"
