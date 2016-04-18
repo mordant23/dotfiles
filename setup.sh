@@ -23,13 +23,13 @@ cd ~
 echo ${MESSAGE_PREFIX} "Editing ~/.profile"
 
 echo ${MESSAGE_PREFIX} "Checking default editor"
-if [[ ! $(echo ${EDITOR} | grep vi) ]]; then
+if [[ ! $(echo ${EDITOR} | grep -q vi) ]]; then
     echo ${MESSAGE_PREFIX} "Adding vi as default editor"
     sed -i '$a export EDITOR=$(command -v vi)' .profile
 fi
 
 echo ${MESSAGE_PREFIX} "Checking PATH"
-if [[ ! $(echo ${PATH} | grep npm-global) ]]; then
+if [[ ! $(echo ${PATH} | grep -q npm-global) ]]; then
     echo ${MESSAGE_PREFIX} "Adding PATH"
     sed -i '$a export PATH=~/.npm-global/bin:$PATH' .profile
 fi
@@ -39,7 +39,7 @@ echo ${MESSAGE_PREFIX} "Installing initial packages"
 packages=( git xclip synaptic gdebi vagrant build-essential )
 for i in "${packages[@]}"
 do
-    if [ ! $(command -v ${i}) ]; then
+    if [[ ! $(command -v ${i}) && ! $(dpkg-query -l "${i}" | grep ${i})  ]]; then
         download_program_msg ${i}
         sudo apt-get install -y ${i}
     else
@@ -53,7 +53,7 @@ directories=( projects src bin .npm-global )
 cd ~
 for i in "${directories[@]}"
 do
-    if [ ! -d ${i} ]; then
+    if [[ ! -d ${i} ]]; then
         mkdir ${i}
     fi
 done
