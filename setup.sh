@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# @todo install php and xcdebug
+
 MESSAGE_PREFIX="########## "
 
 function check_program_msg ()
@@ -23,13 +25,13 @@ cd ~
 echo ${MESSAGE_PREFIX} "Editing ~/.profile"
 
 echo ${MESSAGE_PREFIX} "Checking default editor"
-if [[ ! $(echo ${EDITOR} | grep -q vi) ]]; then
+if [[ ! $(echo ${EDITOR} | grep vi) ]]; then
     echo ${MESSAGE_PREFIX} "Adding vi as default editor"
     sed -i '$a export EDITOR=$(command -v vi)' .profile
 fi
 
 echo ${MESSAGE_PREFIX} "Checking PATH"
-if [[ ! $(echo ${PATH} | grep -q npm-global) ]]; then
+if [[ ! $(echo ${PATH} | grep npm-global) ]]; then
     echo ${MESSAGE_PREFIX} "Adding PATH"
     sed -i '$a export PATH=~/.npm-global/bin:$PATH' .profile
 fi
