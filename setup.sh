@@ -30,8 +30,6 @@ do
     fi
 done
 
-#sudo apt-get install git xclip synaptic gdebi vagrant
-
 # Create directories
 echo ${MESSAGE_PREFIX} "Creating Directories"
 directories=( projects src bin )
