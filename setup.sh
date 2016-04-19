@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# @todo install php and xcdebug
+# @todo install selenium stand alone server
+# @todo make mysql server setup idempotent
 
 MESSAGE_PREFIX="########## "
 
@@ -38,7 +39,7 @@ fi
 
 # Installing useful packages from existing repos
 echo ${MESSAGE_PREFIX} "Installing initial packages"
-packages=( git xclip synaptic gdebi vagrant build-essential )
+packages=( git xclip synaptic gdebi vagrant build-essential openjdk-8-jdk php5 php5-xdebug php5-mcrypt mysql-server mysql-client )
 for i in "${packages[@]}"
 do
     if [[ ! $(command -v ${i}) && ! $(dpkg-query -l "${i}" | grep ${i})  ]]; then
@@ -48,6 +49,11 @@ do
         already_exists_msg ${i}
     fi
 done
+
+# Setup Mysql
+echo ${MESSAGE_PREFIX} "Setting up mysql server"
+udo mysql_secure_installation
+sudo mysql_install_db
 
 # Create directories
 echo ${MESSAGE_PREFIX} "Creating Directories"
