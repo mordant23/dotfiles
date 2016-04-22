@@ -2,6 +2,8 @@
 
 # @todo install selenium stand alone server
 # @todo make mysql server setup idempotent
+# @todo upgrade vagrant to version 1.8
+# @todo add user to docker group and other steps as described http://stackoverflow.com/a/34869632
 
 MESSAGE_PREFIX="########## "
 
@@ -39,7 +41,8 @@ fi
 
 # Installing useful packages from existing repos
 echo ${MESSAGE_PREFIX} "Installing initial packages"
-packages=( git xclip synaptic gdebi vagrant build-essential openjdk-8-jdk php5 php5-xdebug php5-mcrypt mysql-server mysql-client )
+packages=( git xclip synaptic gdebi build-essential openjdk-8-jdk php5 php5-xdebug php5-mcrypt mysql-server \
+ mysql-client network-manager-openconnect-gnome apt-transport-https ca-certificates)
 for i in "${packages[@]}"
 do
     if [[ ! $(command -v ${i}) && ! $(dpkg-query -l "${i}" | grep ${i})  ]]; then
@@ -52,7 +55,7 @@ done
 
 # Setup Mysql
 echo ${MESSAGE_PREFIX} "Setting up mysql server"
-udo mysql_secure_installation
+sudo mysql_secure_installation
 sudo mysql_install_db
 
 # Create directories
@@ -67,6 +70,28 @@ do
 done
 
 cd ~/Downloads/
+
+# Install Vagrant (the one in the repo is old)
+check_program_msg "Vagrant"
+if [[ ! $(command -v vagrant) ]]; then
+    download_program_msg "Vagrant"
+    curl -O https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+    sudo dpkg -i vagrant*.deb
+else
+    already_exists_msg "Vagrant"
+fi
+
+# Install docker
+if [[ ! $(command -v docker-engine) && ! $(dpkg-query -l docker-engine | grep docker-engine)  ]]; then
+    download_program_msg "Docker"
+    sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    sudo add-apt-repository 'deb https://apt.dockerproject.org/repo ubuntu-wily main'
+    sudo apt-get update
+    sudo apt-get purge lxc-docker
+    sudo apt-get install -y docker-engine
+else
+    already_exists_msg "Docker"
+fi
 
 # Install Google Chrome
 check_program_msg "Google Chrome"
