@@ -4,6 +4,7 @@
 # @todo make mysql server setup idempotent
 # @todo upgrade vagrant to version 1.8
 # @todo add user to docker group and other steps as described http://stackoverflow.com/a/34869632
+# @todo add checks and updates for repositories (for after upgrades) -- may need to be a separate script
 
 MESSAGE_PREFIX="########## "
 
