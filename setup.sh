@@ -42,7 +42,7 @@ fi
 
 # Installing useful packages from existing repos
 echo ${MESSAGE_PREFIX} "Installing initial packages"
-packages=( git xclip synaptic gdebi build-essential openjdk-8-jdk php5 php5-xdebug php5-mcrypt mysql-server \
+packages=( git xclip synaptic gdebi build-essential openjdk-8-jdk php7.0 php-xdebug php7.0-mcrypt mysql-server \
  mysql-client network-manager-openconnect-gnome apt-transport-https ca-certificates)
 for i in "${packages[@]}"
 do
@@ -86,7 +86,7 @@ fi
 if [[ ! $(command -v docker-engine) && ! $(dpkg-query -l docker-engine | grep docker-engine)  ]]; then
     download_program_msg "Docker"
     sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-    sudo add-apt-repository 'deb https://apt.dockerproject.org/repo ubuntu-wily main'
+    sudo add-apt-repository 'deb https://apt.dockerproject.org/repo ubuntu-$(lsb_release -c -s) main'
     sudo apt-get update
     sudo apt-get purge lxc-docker
     sudo apt-get install -y docker-engine
@@ -135,7 +135,7 @@ fi
 check_program_msg "Virtualbox"
 if [[ ! $(command -v virtualbox) ]]; then
     download_program_msg "Virtualbox"
-    sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian wily contrib"
+    sudo add-apt-repository 'deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -c -s) contrib'
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt-get update && sudo apt-get install virtualbox-5.0
 else
