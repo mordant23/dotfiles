@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # @todo install selenium stand alone server
 # @todo make mysql server setup idempotent
