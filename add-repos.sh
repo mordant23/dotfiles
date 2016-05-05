@@ -15,7 +15,7 @@ repositories=(\
 "deb http://dl.google.com/linux/chrome/deb/ stable main" \
 "deb http://ppa.launchpad.net/maarten-baert/simplescreenrecorder/ubuntu $(lsb_release -c -s) main"
 )
-do
+for i in "${repositories[@]}"; do
     if [[ $(has_repo "${i}") ]]; then
         echo "Repo ${i} found"
     else
