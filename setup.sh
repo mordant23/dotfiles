@@ -108,7 +108,7 @@ fi
 check_program_msg "Intellij"
 if [[ ! $(command -v idea) ]]; then
     download_program_msg "Intellij"
-    curl -O https://download.jetbrains.com/idea/ideaIU-2016.1.1.tar.gz
+    curl -O https://download.jetbrains.com/idea/ideaIU-2016.3.2.tar.gz
     tar -zxvf ideaIU-2016.1.1.tar.gz
     mkdir bin/idea
     mv idea-IU*/* bin/idea/
