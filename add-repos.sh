@@ -10,7 +10,6 @@ function has_repo() {
 
 repositories=(\
 "deb https://apt.dockerproject.org/repo ubuntu-$(lsb_release -c -s) main" \
-"deb https://atlassian.artifactoryonline.com/atlassian/hipchat-apt-client $(lsb_release -c -s) main" \
 "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -c -s) contrib" \
 "deb http://dl.google.com/linux/chrome/deb/ stable main" \
 "deb http://ppa.launchpad.net/maarten-baert/simplescreenrecorder/ubuntu $(lsb_release -c -s) main"

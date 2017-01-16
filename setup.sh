@@ -119,18 +119,6 @@ else
     already_exists_msg "Intellij"
 fi
 
-# Download Hipchat
-check_program_msg "Hipchat"
-if [[ ! $(command -v hipchat4) ]]; then
-    download_program_msg "Hipchat"
-    sudo sh -c 'echo "deb https://atlassian.artifactoryonline.com/atlassian/hipchat-apt-client $(lsb_release -c -s) main" > /etc/apt/sources.list.d/atlassian-hipchat4.list'
-    wget -O - https://atlassian.artifactoryonline.com/atlassian/api/gpg/key/public | sudo apt-key add -
-    sudo apt-get update
-    sudo apt-get install hipchat4
-else
-    already_exists_msg "Hipchat"
-fi
-
 # Download Virtualbox
 check_program_msg "Virtualbox"
 if [[ ! $(command -v virtualbox) ]]; then
