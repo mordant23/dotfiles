@@ -122,7 +122,7 @@ PS1+="\[${base0}\]@";
 PS1+="\[${hostStyle}\]\h"; # host
 PS1+="\[${base0}\]:";
 PS1+="\[${blue}\]\w"; # working directory
-PS1+="\$(prompt_git \"${base0} on ${violet}\")"; # Git repository details
+PS1+="\$(prompt_git \"${base0}->${violet}\")"; # Git repository details
 PS1+="\n";
 PS1+="\[${base0}\]\$ \[${reset}\]"; # `$` (and reset color)
 export PS1;
